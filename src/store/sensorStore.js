@@ -16,7 +16,7 @@ const useSensorStore = create((set) => ({
     stick: 0,
     bucket: 0,
   },
-
+  // try
   updateSoilVolume: (volume) =>
     set((state) => {
       const triggered = volume >= 100;
