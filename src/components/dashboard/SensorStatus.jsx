@@ -21,7 +21,7 @@ const SensorStatus = () => {
           style={{
             fontSize: '48px',
             fontWeight: 'bold',
-            color: sensorTriggered ? '#ff4444' : '#00ff88',
+            color: sensorTriggered ? '#4488ff' : '#00ff88',
             marginBottom: '5px',
           }}>
           {soilVolume.toFixed(2)} m³
@@ -39,18 +39,18 @@ const SensorStatus = () => {
             alignItems: 'center',
             gap: '10px',
             padding: '15px',
-            background: sensorTriggered ? '#ff444422' : '#00ff8822',
+            background: sensorTriggered ? '#4488ff22' : '#00ff8822',
             borderRadius: '5px',
-            border: `2px solid ${sensorTriggered ? '#ff4444' : '#00ff88'}`,
+            border: `2px solid ${sensorTriggered ? '#4488ff' : '#00ff88'}`,
           }}>
           <div
             style={{
               width: '20px',
               height: '20px',
               borderRadius: '50%',
-              background: sensorTriggered ? '#ff4444' : '#00ff88',
+              background: sensorTriggered ? '#4488ff' : '#00ff88',
               boxShadow: sensorTriggered
-                ? '0 0 10px #ff4444'
+                ? '0 0 10px #4488ff'
                 : '0 0 10px #00ff88',
               animation: sensorTriggered ? 'pulse 1s infinite' : 'none',
             }}

@@ -71,11 +71,11 @@ const SoilVolumeChart = () => {
           />
           <ReferenceLine
             y={100}
-            stroke='#ff4444'
+            stroke='#4488ff'
             strokeDasharray='5 5'
             label={{
               value: 'Target Volume (100m³)',
-              fill: '#ff4444',
+              fill: '#4488ff',
               position: 'right',
             }}
           />

@@ -76,7 +76,7 @@ const SensorLog = () => {
                     style={{
                       padding: '10px',
                       fontWeight: 'bold',
-                      color: entry.triggered ? '#ff4444' : '#00ff88',
+                      color: entry.triggered ? '#4488ff' : '#00ff88',
                     }}>
                     {entry.volume.toFixed(2)}
                   </td>
@@ -87,10 +87,10 @@ const SensorLog = () => {
                         borderRadius: '3px',
                         fontSize: '11px',
                         fontWeight: 'bold',
-                        background: entry.triggered ? '#ff444422' : '#00ff8822',
-                        color: entry.triggered ? '#ff4444' : '#00ff88',
+                        background: entry.triggered ? '#4488ff22' : '#00ff8822',
+                        color: entry.triggered ? '#4488ff' : '#00ff88',
                         border: `1px solid ${
-                          entry.triggered ? '#ff4444' : '#00ff88'
+                          entry.triggered ? '#4488ff' : '#00ff88'
                         }`,
                       }}>
                       {entry.triggered ? 'TRIGGERED' : 'NORMAL'}
