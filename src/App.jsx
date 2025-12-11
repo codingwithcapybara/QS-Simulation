@@ -8,9 +8,10 @@ import './App.css';
 function App() {
   const [simulationEnabled, setSimulationEnabled] = useState(true);
   const [simulationSpeed, setSimulationSpeed] = useState(1000);
+  const [performanceMode, setPerformanceMode] = useState('good'); // 'good' or 'degraded'
   const { clearHistory } = useSensorStore();
 
-  useSensorSimulation(simulationSpeed, simulationEnabled);
+  useSensorSimulation(simulationSpeed, simulationEnabled, performanceMode);
 
   return (
     <div
@@ -53,6 +54,45 @@ function App() {
         </div>
 
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          {/* Performance Mode Selector */}
+          <div style={{ display: 'flex', gap: '5px', marginRight: '10px' }}>
+            <button
+              onClick={() => {
+                setPerformanceMode('good');
+                clearHistory();
+              }}
+              style={{
+                padding: '8px 16px',
+                background: performanceMode === 'good' ? '#00ff88' : '#2a2a2a',
+                color: performanceMode === 'good' ? '#000' : '#fff',
+                border: '1px solid #666',
+                borderRadius: '5px',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                fontSize: '14px',
+              }}>
+              ✅ Good Performance
+            </button>
+            <button
+              onClick={() => {
+                setPerformanceMode('degraded');
+                clearHistory();
+              }}
+              style={{
+                padding: '8px 16px',
+                background:
+                  performanceMode === 'degraded' ? '#ff4444' : '#2a2a2a',
+                color: performanceMode === 'degraded' ? '#000' : '#fff',
+                border: '1px solid #666',
+                borderRadius: '5px',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                fontSize: '14px',
+              }}>
+              ⚠️ Needs Maintenance
+            </button>
+          </div>
+
           <button
             onClick={() => setSimulationEnabled(!simulationEnabled)}
             style={{

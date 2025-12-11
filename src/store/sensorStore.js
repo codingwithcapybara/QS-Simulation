@@ -9,19 +9,16 @@ const useSensorStore = create((set) => ({
 
   history: [],
 
-  // Performance metrics for maintenance prediction
   totalScoops: 0,
-  totalTimeHours: 0, // Time in hours
-  scoopHistory: [], // Track individual scoop performance
+  totalTimeHours: 0,
+  scoopHistory: [],
 
-  // Backhoe arm angles (for animation)
   armAngles: {
     base: 0,
     boom: 0,
     stick: 0,
     bucket: 0,
   },
-  // try again
   updateSoilVolume: (volume, scoopAmount, timeIncrement) =>
     set((state) => {
       const triggered = volume >= 100;
@@ -30,10 +27,9 @@ const useSensorStore = create((set) => ({
         volume: volume,
         triggered: triggered,
         bucketPosition: state.bucketPosition,
-        scoopAmount: scoopAmount || 0, // Add scoop amount to history
+        scoopAmount: scoopAmount || 0, 
       };
 
-      // Track scoop performance if this was a scoop operation
       const newScoopHistory = scoopAmount
         ? [
             ...state.scoopHistory,
@@ -41,7 +37,7 @@ const useSensorStore = create((set) => ({
               volume: scoopAmount,
               timestamp: new Date().toISOString(),
             },
-          ].slice(-20) // Keep last 20 scoops
+          ].slice(-20) 
         : state.scoopHistory;
 
       const newTotalScoops = scoopAmount
@@ -82,6 +78,8 @@ const useSensorStore = create((set) => ({
       totalScoops: 0,
       totalTimeHours: 0,
       scoopHistory: [],
+      soilVolume: 0,
+      sensorTriggered: false,
     }),
 }));
 

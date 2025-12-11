@@ -1,20 +1,31 @@
+import { useEffect, useRef } from 'react';
 import useSensorStore from '../../store/sensorStore';
+import { sendMaintenanceAlert } from '../../services/emailService';
 
 const PredictiveMaintenance = () => {
   const { totalScoops, totalTimeHours, soilVolume } = useSensorStore();
+  const emailSentRef = useRef(false);
 
-  // Baseline metrics
   const EXPECTED_EFFICIENCY = 72.15; // m³/hr
 
-  // Machinery Efficiency Check
   const currentEfficiency =
     totalTimeHours > 0 ? soilVolume / totalTimeHours : 0;
 
   const efficiencyPercentage = (currentEfficiency / EXPECTED_EFFICIENCY) * 100;
-  const efficiencyNeedsMaintenance = currentEfficiency < EXPECTED_EFFICIENCY; // Boom or bust at 72.15
+  const efficiencyNeedsMaintenance = currentEfficiency < EXPECTED_EFFICIENCY;
 
-  // Overall maintenance status
   const requiresMaintenance = efficiencyNeedsMaintenance;
+
+  useEffect(() => {
+    if (requiresMaintenance && soilVolume >= 100 && !emailSentRef.current) {
+      emailSentRef.current = true;
+      sendMaintenanceAlert(currentEfficiency, EXPECTED_EFFICIENCY);
+    }
+
+    if (!requiresMaintenance) {
+      emailSentRef.current = false;
+    }
+  }, [requiresMaintenance, soilVolume, currentEfficiency, EXPECTED_EFFICIENCY]);
 
   return (
     <div

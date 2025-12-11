@@ -14,7 +14,6 @@ import useSensorStore from '../../store/sensorStore';
 const SoilVolumeChart = () => {
   const { history } = useSensorStore();
 
-  // Show all history data with actual reading numbers
   const chartData = history.map((entry, index) => ({
     reading: index + 1,
     volume: entry.volume,
