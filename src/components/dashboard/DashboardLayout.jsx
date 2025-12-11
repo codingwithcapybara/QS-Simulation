@@ -1,6 +1,7 @@
 import SoilVolumeChart from './SoilVolumeChart';
 import SensorStatus from './SensorStatus';
 import SensorLog from './SensorLog';
+import PredictiveMaintenance from './PredictiveMaintenance';
 
 const DashboardLayout = () => {
   return (
@@ -19,6 +20,11 @@ const DashboardLayout = () => {
       {/* Soil Volume Chart */}
       <div style={{ flex: '0 0 auto' }}>
         <SoilVolumeChart />
+      </div>
+
+      {/* Predictive Maintenance */}
+      <div style={{ flex: '0 0 auto' }}>
+        <PredictiveMaintenance />
       </div>
 
       {/* Sensor Status */}

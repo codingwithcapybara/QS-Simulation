@@ -4,6 +4,7 @@ import useSensorStore from '../store/sensorStore';
 const useSensorSimulation = (interval = 3000, enabled = true) => {
   const { updateSoilVolume, updateArmAngles, soilVolume } = useSensorStore();
   const phaseRef = useRef(0);
+  const SCOOP_TIME_HOURS = 0.012; // ~43 seconds per scoop cycle (0.72 minutes)
 
   useEffect(() => {
     if (!enabled || soilVolume >= 100) return;
@@ -33,10 +34,22 @@ const useSensorSimulation = (interval = 3000, enabled = true) => {
             bucket: 1.2, // Close bucket
           });
 
-          const digAmount = Math.random() * 3 + 5;
+          // Simulate variable scoop amounts (0.6 to 0.87m³ with occasional degradation)
+          const randomFactor = Math.random();
+          let digAmount;
+          
+          // Simulate occasional performance degradation
+          if (randomFactor < 0.15) {
+            // 15% chance of reduced capacity (maintenance needed)
+            digAmount = 0.4 + Math.random() * 0.25; // 0.4-0.65m³
+          } else {
+            // Normal operation near full capacity
+            digAmount = 0.7 + Math.random() * 0.17; // 0.7-0.87m³
+          }
+          
           const newVolume = Math.min(soilVolume + digAmount, 100);
-          updateSoilVolume(parseFloat(newVolume.toFixed(2)));
-          console.log(`🚜 SCOOP: ${newVolume.toFixed(1)}m³`);
+          updateSoilVolume(parseFloat(newVolume.toFixed(2)), digAmount, SCOOP_TIME_HOURS);
+          console.log(`🚜 SCOOP: ${digAmount.toFixed(2)}m³ | Total: ${newVolume.toFixed(1)}m³`);
           break;
 
         case 2:

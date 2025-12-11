@@ -100,6 +100,9 @@ function App() {
             <option value={1000}>1x Speed</option>
             <option value={500}>2x Speed</option>
             <option value={250}>4x Speed</option>
+            <option value={167}>6x Speed</option>
+            <option value={125}>8x Speed</option>
+            <option value={100}>10x Speed</option>
           </select>
         </div>
       </header>
