@@ -51,7 +51,8 @@ const SensorLog = () => {
                   textAlign: 'left',
                 }}>
                 <th style={{ padding: '10px', color: '#888' }}>Time</th>
-                <th style={{ padding: '10px', color: '#888' }}>Volume (m³)</th>
+                <th style={{ padding: '10px', color: '#888' }}>Scoop (m³)</th>
+                <th style={{ padding: '10px', color: '#888' }}>Total (m³)</th>
                 <th style={{ padding: '10px', color: '#888' }}>Status</th>
               </tr>
             </thead>
@@ -71,6 +72,14 @@ const SensorLog = () => {
                   }>
                   <td style={{ padding: '10px', fontSize: '12px' }}>
                     {new Date(entry.timestamp).toLocaleTimeString()}
+                  </td>
+                  <td
+                    style={{
+                      padding: '10px',
+                      fontWeight: 'bold',
+                      color: entry.scoopAmount > 0 ? '#00ff88' : '#666',
+                    }}>
+                    {entry.scoopAmount > 0 ? entry.scoopAmount.toFixed(2) : '-'}
                   </td>
                   <td
                     style={{

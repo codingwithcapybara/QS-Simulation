@@ -30,6 +30,7 @@ const useSensorStore = create((set) => ({
         volume: volume,
         triggered: triggered,
         bucketPosition: state.bucketPosition,
+        scoopAmount: scoopAmount || 0, // Add scoop amount to history
       };
 
       // Track scoop performance if this was a scoop operation
