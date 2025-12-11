@@ -37,7 +37,7 @@ const useSensorSimulation = (interval = 3000, enabled = true) => {
           // Simulate variable scoop amounts (0.6 to 0.87m³ with occasional degradation)
           const randomFactor = Math.random();
           let digAmount;
-          
+
           // Simulate occasional performance degradation
           if (randomFactor < 0.15) {
             // 15% chance of reduced capacity (maintenance needed)
@@ -46,10 +46,18 @@ const useSensorSimulation = (interval = 3000, enabled = true) => {
             // Normal operation near full capacity
             digAmount = 0.7 + Math.random() * 0.17; // 0.7-0.87m³
           }
-          
+
           const newVolume = Math.min(soilVolume + digAmount, 100);
-          updateSoilVolume(parseFloat(newVolume.toFixed(2)), digAmount, SCOOP_TIME_HOURS);
-          console.log(`🚜 SCOOP: ${digAmount.toFixed(2)}m³ | Total: ${newVolume.toFixed(1)}m³`);
+          updateSoilVolume(
+            parseFloat(newVolume.toFixed(2)),
+            digAmount,
+            SCOOP_TIME_HOURS
+          );
+          console.log(
+            `🚜 SCOOP: ${digAmount.toFixed(2)}m³ | Total: ${newVolume.toFixed(
+              1
+            )}m³`
+          );
           break;
 
         case 2:
