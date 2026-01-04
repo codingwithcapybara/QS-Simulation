@@ -2,6 +2,7 @@ import SoilVolumeChart from './SoilVolumeChart';
 import SensorStatus from './SensorStatus';
 import SensorLog from './SensorLog';
 import PredictiveMaintenance from './PredictiveMaintenance';
+import PowerBIConfig from './PowerBIConfig';
 
 const DashboardLayout = () => {
   return (
@@ -25,6 +26,11 @@ const DashboardLayout = () => {
       {/* Predictive Maintenance */}
       <div style={{ flex: '0 0 auto' }}>
         <PredictiveMaintenance />
+      </div>
+
+      {/* Power BI Config */}
+      <div style={{ flex: '0 0 auto' }}>
+        <PowerBIConfig />
       </div>
 
       {/* Sensor Status */}

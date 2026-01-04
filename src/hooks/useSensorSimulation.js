@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import useSensorStore from '../store/sensorStore';
+import { streamDataToPowerBI } from '../services/powerBiService';
 
 const useSensorSimulation = (
   interval = 3000,
@@ -28,7 +29,7 @@ const useSensorSimulation = (
           });
           break;
 
-        case 1:
+        case 1: {
           // Scoop - close bucket
           updateArmAngles({
             base: 0.8,
@@ -55,13 +56,39 @@ const useSensorSimulation = (
           }
 
           const newVolume = Math.min(soilVolume + digAmount, 100);
+
+          // Calculate efficiency locally to ensure accuracy before store update
+          const currentStoreState = useSensorStore.getState();
+          const newTotalTime =
+            currentStoreState.totalTimeHours + SCOOP_TIME_HOURS;
+          const currentEfficiency =
+            newTotalTime > 0 ? (newVolume / newTotalTime).toFixed(2) : 0;
+
           updateSoilVolume(
             parseFloat(newVolume.toFixed(2)),
             digAmount,
             SCOOP_TIME_HOURS
           );
 
+          // Stream to Power BI using the fresh local calculation and fresh Session ID
+          const freshState = useSensorStore.getState();
+          const localTimestamp = new Date(
+            Date.now() - new Date().getTimezoneOffset() * 60000
+          )
+            .toISOString()
+            .slice(0, -1);
+
+          streamDataToPowerBI({
+            timestamp: localTimestamp,
+            sessionId: freshState.sessionId,
+            scoopVolume: digAmount,
+            totalVolume: newVolume,
+            efficiency: parseFloat(currentEfficiency),
+            maintenanceRequired: parseFloat(currentEfficiency) < 72.15 ? 1 : 0,
+          });
+
           break;
+        }
 
         case 2:
           // Swing to truck - left side
@@ -91,7 +118,14 @@ const useSensorSimulation = (
     }, interval);
 
     return () => clearInterval(simulationInterval);
-  }, [enabled, interval, updateSoilVolume, soilVolume, performanceMode]);
+  }, [
+    enabled,
+    interval,
+    updateSoilVolume,
+    soilVolume,
+    performanceMode,
+    updateArmAngles,
+  ]);
 };
 
 export default useSensorSimulation;

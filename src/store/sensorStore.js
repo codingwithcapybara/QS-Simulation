@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 const useSensorStore = create((set) => ({
   soilVolume: 0,
+  sessionId: Date.now().toString(),
 
   sensorTriggered: false,
 
@@ -22,12 +23,17 @@ const useSensorStore = create((set) => ({
   updateSoilVolume: (volume, scoopAmount, timeIncrement) =>
     set((state) => {
       const triggered = volume >= 100;
+      const localTimestamp = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .slice(0, -1);
       const newEntry = {
-        timestamp: new Date().toISOString(),
+        timestamp: localTimestamp,
         volume: volume,
         triggered: triggered,
         bucketPosition: state.bucketPosition,
-        scoopAmount: scoopAmount || 0, 
+        scoopAmount: scoopAmount || 0,
       };
 
       const newScoopHistory = scoopAmount
@@ -35,9 +41,9 @@ const useSensorStore = create((set) => ({
             ...state.scoopHistory,
             {
               volume: scoopAmount,
-              timestamp: new Date().toISOString(),
+              timestamp: localTimestamp,
             },
-          ].slice(-20) 
+          ].slice(-20)
         : state.scoopHistory;
 
       const newTotalScoops = scoopAmount
@@ -80,6 +86,7 @@ const useSensorStore = create((set) => ({
       scoopHistory: [],
       soilVolume: 0,
       sensorTriggered: false,
+      sessionId: Date.now().toString(),
     }),
 }));
 
